@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block title %}Teams
+{% endblock %}
+
+{% block body %}
+
+	<div class="">
+		<h1>Teams</h1>
+
+		<div class="custom-teams-container">
+			<div class="row">
+				{% for item in 1..6 %}
+					<div class="col-6 mb-3">
+						<div class="card">
+							<div class="card-header">
+								Team name
+							</div>
+							<div class="card-body">
+								<ul>
+									{% for item in 1..11 %}
+										<li>Abraham Player</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="custom-teams-pagination">
+			<nav aria-label="...">
+				<ul class="pagination justify-content-center">
+					<li class="page-item active" aria-current="page">
+						<span class="page-link">1</span>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">2</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="#">3</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+
+	</div>
+{% endblock %}

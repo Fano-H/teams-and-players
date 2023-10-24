@@ -1,23 +1,42 @@
 {# templates/login/index.html.twig #}
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app_login_asset') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app_login_asset') }}
+{% endblock %}
+
 {% block body %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+    <main class="form-signin w-100 m-auto mt-5">
 
-    <form action="{{ path('app_login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}">
+        <form action="{{ path('app_login') }}" method="post">
+            <div class="mb-3">
+                <h1 class="h3 mb-5 fw-normal text-center">Please sign in to access the app</h1>
+            </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password">
+            {% if error %}
+                <div class="text-danger mb-3">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
 
-        {# If you want to control the URL the user is redirected to on success
-        <input type="hidden" name="_target_path" value="/account"> #}
+            <div class="mb-3">
+                <label for="username">Email:</label>
+                <input class="form-control mt-2" type="text" id="username" name="_username" value="{{ last_username }}">
+            </div>
+            <div class="mb-3">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="_password" class="form-control mt-2">
+            </div>
 
-        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-        <button type="submit">login</button>
-    </form>
+            <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+
+            <p class="mt-4 text-center text-success fw-bold">Create User in command line if there is no user yet.</p>
+
+        </form> 
+    </main>
+
 {% endblock %}

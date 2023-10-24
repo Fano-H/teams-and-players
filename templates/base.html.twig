@@ -13,6 +13,14 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="row">
+            <div class="col-3">
+                {% include "layout/sidebar.html.twig" %}
+            </div>
+            <div class="col-9 pe-4">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+
     </body>
 </html>
