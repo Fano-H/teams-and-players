@@ -1,0 +1,49 @@
+<form>
+	<fieldset>
+		<legend>About the team</legend>
+		<div class="mb-3">
+			<label for="team-name" class="form-label">Name</label>
+			<input type="text" id="team-name" class="form-control">
+		</div>
+		<div class="mb-3">
+			<label for="team-country" class="form-label">Country</label>
+			<select class="form-select" id="team-country">
+				<option selected>Select</option>
+				<option value="1">One</option>
+				<option value="2">Two</option>
+				<option value="3">Three</option>
+			</select>
+		</div>
+		<div class="mb-3">
+			<label for="team-money-balance" class="form-label">Money balance</label>
+			<input type="text" id="team-money-balance" class="form-control">
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Its players</legend>
+		{% for item in 1..11 %}
+			<div class="row">
+				<div class="col">
+					<div class="mb-3">
+						<label for="team-player-{{item}}-name" class="form-label">Player
+							{{item}}
+							name</label>
+						<input type="text" id="team-player-{{item}}name" class="form-control">
+					</div>
+
+				</div>
+				<div class="col">
+					<div class="mb-3">
+						<label for="team-player-{{item}}-name" class="form-label">Player
+							{{item}}
+							surname</label>
+						<input type="text" id="team-player-{{item}}-name" class="form-control">
+					</div>
+				</div>
+			</div>
+
+		{% endfor %}
+	</fieldset>
+
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>
