@@ -1,0 +1,60 @@
+<form>
+    <div class="mb-3">
+        <label for="opertion-type" class="form-label">Type of operation</label>
+        <select class="form-select" id="operation-type">
+            <option selected>Select</option>
+            <option value="1">Buy</option>
+            <option value="2">Sell</option>
+        </select>
+    </div>
+    <div class="mb-3 mt-4">
+        <p class="h4">From :</p>
+        <div class="row">
+            <div class="col-6">
+                <label for="operation-from-team" class="form-label">From team</label>
+                <select class="form-select" id="operation-from-team">
+                    <option selected>Select</option>
+                    <option value="1">team01</option>
+                    <option value="2">team02</option>
+                    <option value="3">team03</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="operation-from-team-balance" class="form-label">Current money balance of the team</label>
+                    <input type="text" id="operation-from-team-balance" class="form-control">
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="mb-3 mt-4">
+        <p class="h4">To :</p>
+        <div class="row">
+            <div class="col-6">
+                <label for="operation-to-team" class="form-label">To team</label>
+                <select class="form-select" id="operation-to-team">
+                    <option selected>Select</option>
+                    <option value="1">team01</option>
+                    <option value="2">team02</option>
+                    <option value="3">team03</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <div class="mb-3">
+                    <label for="operation-to-team-balance" class="form-label">Current money balance of the team</label>
+                    <input type="text" id="operation-to-team-balance" class="form-control">
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class="mb-3 mt-4">
+        <label for="operation-amount" class="form-label">Operation amount</label>
+        <input type="text" id="operation-amount" class="form-control">
+    </div>
+
+	<button type="submit" class="btn btn-primary">Submit</button>
+</form>

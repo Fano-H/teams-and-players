@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block title %}New operation
+{% endblock %}
+
+{% block body %}
+    <div class="">
+		<h1 class="mb-5">New operation</h1>
+		<div class="custom-teams-new-container">
+            <div class="custom-teams-new-form">
+                {% include "operation/_form-new.html.twig" %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
