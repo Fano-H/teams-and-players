@@ -1,49 +1,67 @@
-<form>
-	<fieldset>
-		<legend>About the team</legend>
-		<div class="mb-3">
-			<label for="team-name" class="form-label">Name</label>
-			<input type="text" id="team-name" class="form-control">
+{{ form_start(form) }}
+
+
+{% if form_errors(form) %}
+	<div class="mb-3 text-danger">
+			{{ form_errors(form) }}
+	</div>
+{% endif %}
+
+<fieldset>
+	<legend>About the team</legend>
+	<div class="mb-3">
+		{{ form_row(form.name) }}
+	</div>
+	<div class="mb-3">
+		{{ form_row(form.country) }}
+	</div>
+	<div class="mb-3">
+		{{ form_row(form.moneyBalance) }}
+	</div>
+</fieldset>
+<fieldset>
+	<legend>Its players</legend>
+
+	{% set itemTemplate %}
+		<div class="row mt-3">
+			<div class="col">
+				<div class="mb-3">
+					{{ form_row(form.players.vars.prototype.children.name) }}
+				</div>
+
+			</div>
+			<div class="col">
+				<div class="mb-3">
+					{{ form_row(form.players.vars.prototype.children.surname) }}
+				</div>
+			</div>
 		</div>
-		<div class="mb-3">
-			<label for="team-country" class="form-label">Country</label>
-			<select class="form-select" id="team-country">
-				<option selected>Select</option>
-				<option value="1">One</option>
-				<option value="2">Two</option>
-				<option value="3">Three</option>
-			</select>
-		</div>
-		<div class="mb-3">
-			<label for="team-money-balance" class="form-label">Money balance</label>
-			<input type="text" id="team-money-balance" class="form-control">
-		</div>
-	</fieldset>
-	<fieldset>
-		<legend>Its players</legend>
-		{% for item in 1..11 %}
+	{% endset %}
+
+
+	<div class="team-players-holder" data-index="{{ form.players|length > 0 ? form.players|last.vars.name + 1 : 0 }}" data-prototype="{{ itemTemplate|e('html_attr') }}">
+		{% for player in form.players %}
 			<div class="row">
 				<div class="col">
 					<div class="mb-3">
-						<label for="team-player-{{item}}-name" class="form-label">Player
-							{{item}}
-							name</label>
-						<input type="text" id="team-player-{{item}}name" class="form-control">
+						{{ form_row(player.name) }}
 					</div>
 
 				</div>
 				<div class="col">
 					<div class="mb-3">
-						<label for="team-player-{{item}}-surname" class="form-label">Player
-							{{item}}
-							surname</label>
-						<input type="text" id="team-player-{{item}}-surname" class="form-control">
+						{{ form_row(player.surname) }}
 					</div>
 				</div>
 			</div>
 
 		{% endfor %}
-	</fieldset>
+	</div>
 
-	<button type="submit" class="btn btn-primary">Submit</button>
-</form>
+	<button type="button" class="custom-add-player-button btn btn-sm btn-success my-3 mb-5" data-collection-holder-class="team-players-holder">Add a player</button>
+</fieldset>
+
+{{ form_row(form._token) }}
+
+<button type="submit" class="btn btn-primary">Submit</button>
+{{ form_end(form, {render_rest: false}) }}
