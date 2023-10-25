@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PlayerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
@@ -21,6 +23,14 @@ class Player
 
     #[ORM\ManyToOne(inversedBy: 'players')]
     private ?Team $team = null;
+
+    #[ORM\OneToMany(mappedBy: 'player', targetEntity: Operation::class)]
+    private Collection $operations;
+
+    public function __construct()
+    {
+        $this->operations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -59,6 +69,36 @@ class Player
     public function setTeam(?Team $team): static
     {
         $this->team = $team;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Operation>
+     */
+    public function getOperations(): Collection
+    {
+        return $this->operations;
+    }
+
+    public function addOperation(Operation $operation): static
+    {
+        if (!$this->operations->contains($operation)) {
+            $this->operations->add($operation);
+            $operation->setPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperation(Operation $operation): static
+    {
+        if ($this->operations->removeElement($operation)) {
+            // set the owning side to null (unless already changed)
+            if ($operation->getPlayer() === $this) {
+                $operation->setPlayer(null);
+            }
+        }
 
         return $this;
     }

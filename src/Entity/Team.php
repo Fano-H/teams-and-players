@@ -6,8 +6,10 @@ use App\Repository\TeamRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
+#[UniqueEntity('name')]
 class Team
 {
     #[ORM\Id]
@@ -15,7 +17,7 @@ class Team
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
@@ -27,9 +29,13 @@ class Team
     #[ORM\OneToMany(mappedBy: 'team', targetEntity: Player::class, cascade: ['persist'])]
     private Collection $players;
 
+    #[ORM\OneToMany(mappedBy: 'team', targetEntity: Operation::class)]
+    private Collection $operations;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
+        $this->operations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,6 +103,36 @@ class Team
             // set the owning side to null (unless already changed)
             if ($player->getTeam() === $this) {
                 $player->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Operation>
+     */
+    public function getOperations(): Collection
+    {
+        return $this->operations;
+    }
+
+    public function addOperation(Operation $operation): static
+    {
+        if (!$this->operations->contains($operation)) {
+            $this->operations->add($operation);
+            $operation->setoperator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperation(Operation $operation): static
+    {
+        if ($this->operations->removeElement($operation)) {
+            // set the owning side to null (unless already changed)
+            if ($operation->getOperator() === $this) {
+                $operation->setOperator(null);
             }
         }
 
