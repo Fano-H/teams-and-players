@@ -32,12 +32,18 @@ class OperationType extends AbstractType
                 'class' => Team::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Select a team',
+                'attr' => [
+                    'class' => 'custom-operator',
+                ],
             ])
             ->add('concern', EntityType::class, [
                 'class' => Team::class,
                 'choice_label' => 'name',
                 'mapped' => false,
                 'placeholder' => 'Select a team',
+                'attr' => [
+                    'class' => 'custom-concern',
+                ],
             ])
             ->add('player', EntityType::class, [
                 'class' => Player::class,
@@ -45,6 +51,9 @@ class OperationType extends AbstractType
                     return $player->getName().$player->getSurname();
                 },
                 'placeholder' => 'Select a player',
+                'attr' => [
+                    'class' => 'custom-concern-player',
+                ],
             ])
 
         ;

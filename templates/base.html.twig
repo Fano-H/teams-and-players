@@ -11,12 +11,8 @@
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
-
-		{% block javascripts %}
-			{{ encore_entry_script_tags('app') }}
-		{% endblock %}
 	</head>
-	<body>
+	<body data-get-team-data-url="{{ path('app_team_get_data') }}">
 		{% if currentpath != '/login' %}
 			<div class="row">
 				<div class="col-3">
@@ -29,5 +25,10 @@
 				</div>
 			</div>
 		{% endif %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+
 	</body>
 </html>

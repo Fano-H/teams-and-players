@@ -2,7 +2,7 @@
     <div class="mb-3">
         {{  form_row(form.typeOp) }}
     </div>
-    <div class="mb-3 mt-4">
+    <div class="mb-3 mt-4 custom-select-parent">
         <p class="h4">Operator :</p>
         <div class="row">
             <div class="col-6">
@@ -11,14 +11,15 @@
             <div class="col-6">
                 <div class="mb-3">
                     <label for="operator-team-balance" class="form-label">Current money balance of the team</label>
-                    <input disabled ="text" id="operator-team-balance" class="form-control">
+                
+                    <div class="input-group "><span class="input-group-text">$ </span><input type="number" id="operator-team-balance" class="form-control custom-team-balance" disabled></div>
                 </div>
             </div>
         </div>
         
     </div>
 
-    <div class="mb-3 mt-4">
+    <div class="mb-3 mt-4 custom-select-parent">
         <p class="h4">Concern :</p>
         <div class="row">
             <div class="col-6">
@@ -27,8 +28,16 @@
             <div class="col-6">
                 <div class="mb-3">
                     <label for="concern-team-balance" class="form-label">Current money balance of the concern</label>
-                    <input disabled type="text" id="concern-team-balance" class="form-control">
+
+                    <div class="input-group "><span class="input-group-text">$ </span><input type="number" id="concern-team-balance" class="form-control custom-team-balance" disabled></div>
+
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                {{ form_row(form.player) }}
             </div>
         </div>
         
