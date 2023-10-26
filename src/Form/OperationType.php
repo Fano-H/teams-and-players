@@ -23,10 +23,17 @@ class OperationType extends AbstractType
                     'Buy' => 'buy',
                 ],
                 'placeholder' => 'Select operation',
+                'label' => 'Type of operation',
+                'attr' => [
+                    'class' => 'custom-operation-type-select'
+                ]
             ])
             ->add('amount', MoneyType::class, [
                 'currency' => 'USD',
                 'html5' => true,
+                'attr' => [
+                    'class' => 'custom-operation-amount',
+                ]
             ])
             ->add('operator', EntityType::class, [
                 'class' => Team::class,
@@ -54,6 +61,7 @@ class OperationType extends AbstractType
                 'attr' => [
                     'class' => 'custom-concern-player',
                 ],
+                'label' => 'Player (select concern first)',
             ])
 
         ;
