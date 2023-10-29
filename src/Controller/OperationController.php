@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Operation;
 use App\Form\OperationType;
+use App\Repository\OperationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +20,17 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class OperationController extends AbstractController
 {
     #[Route('/', name: 'app_operation')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function operationList(Request $request, OperationRepository $operationRepository): Response
+    {
+        $operations = $operationRepository->findAll();
+
+        return $this->render('operation/list.html.twig', [
+            'operations' => $operations,
+        ]);
+    }
+
+    #[Route('/', name: 'app_operation_new')]
+    public function newOperation(Request $request, EntityManagerInterface $entityManager): Response
     {
         $operation = new Operation();
         $form = $this->createForm(OperationType::class, $operation);
