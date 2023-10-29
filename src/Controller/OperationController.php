@@ -25,42 +25,40 @@ class OperationController extends AbstractController
         $form = $this->createForm(OperationType::class, $operation);
 
         $form->handleRequest($request);
-        
-        if($form->isSubmitted() && $form->isValid()){
-            try{
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
                 $data = $form->getData();
 
-                $initialOperatorBalance = (float) $data->getOperator()->getMoneyBalance() ;
+                $initialOperatorBalance = (float) $data->getOperator()->getMoneyBalance();
                 $initialConcernBalance = (float) $data->getConcern()->getMoneyBalance();
 
                 $operationAmout = (float) $data->getAmount();
 
                 $typeOfOperation = $data->getTypeOp();
-                
+
                 $newOperatorBalance = 0;
                 $newConcernBalance = 0;
 
                 $player = $data->getPlayer();
 
-                if($typeOfOperation === 'buy'){
-                    if($operationAmout > $initialOperatorBalance){
+                if ('buy' === $typeOfOperation) {
+                    if ($operationAmout > $initialOperatorBalance) {
                         return new Response('The operator team has lower balance than the amount to purchase !', 403);
                     }
                     $newOperatorBalance = $initialOperatorBalance - $operationAmout;
                     $newConcernBalance = $initialConcernBalance + $operationAmout;
-                    
+
                     $player->setTeam($data->getOperator());
-                }
-                elseif($typeOfOperation == 'sell'){
-                    if($operationAmout > $initialConcernBalance){
+                } elseif ('sell' == $typeOfOperation) {
+                    if ($operationAmout > $initialConcernBalance) {
                         return new Response('The concern team has lower balance than the sold amount !', 403);
                     }
                     $newOperatorBalance = $initialOperatorBalance + $operationAmout;
                     $newConcernBalance = $initialConcernBalance - $operationAmout;
 
                     $player->setTeam($data->getConcern());
-                }
-                else{
+                } else {
                     $newOperatorBalance = $initialOperatorBalance;
                     $newConcernBalance = $initialConcernBalance;
                 }
@@ -75,13 +73,10 @@ class OperationController extends AbstractController
                     'operationType' => $operation->getTypeOp(),
                     'operationFrom' => $operation->getOperator()->getName(),
                     'operationTo' => $operation->getConcern()->getName(),
-                    'operationPlayer' => $operation->getPlayer()->getName() . ' ' . $operation->getPlayer()->getSurname(),
+                    'operationPlayer' => $operation->getPlayer()->getName().' '.$operation->getPlayer()->getSurname(),
                     'operationAmount' => $operation->getAmount(),
                 ]);
-
-            }
-            catch(\Exception $exc){
-
+            } catch (\Exception $exc) {
             }
         }
 

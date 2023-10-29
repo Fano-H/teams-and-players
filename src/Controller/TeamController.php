@@ -34,7 +34,6 @@ class TeamController extends AbstractController
         $total = $teams->count();
         $totalTrunc = (int) ceil($total / $postsPerPage);
 
-
         return $this->render('team/index.html.twig', [
             'teams' => $teams,
             'total' => $totalTrunc,
@@ -64,20 +63,14 @@ class TeamController extends AbstractController
 
     #[Route('/getteamdata', name: 'app_team_get_data', methods: ['GET'])]
     /**
-     * Get a team data with ajax
-     *
-     * @param Request $request
-     * @param TeamRepository $teamRepository
-     * 
-     * @return Response
-     * 
+     * Get a team data with ajax.
      */
     public function getTeamData(Request $request, TeamRepository $teamRepository): Response
     {
-        if (! $request->isXmlHttpRequest()){
+        if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(null);
         }
-        
+
         $teamId = $request->query->get('teamId');
 
         if ($teamId) {

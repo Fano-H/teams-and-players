@@ -3,9 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Team;
-use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Team>
@@ -49,7 +49,6 @@ class TeamRepository extends ServiceEntityRepository
 
     public function getPaginatedTeams($page = 1, $postsPerPage = 1)
     {
-
         $query = $this->createQueryBuilder('tm')
             ->orderBy('tm.name', 'DESC')
             ->getQuery();
@@ -59,6 +58,7 @@ class TeamRepository extends ServiceEntityRepository
         $paginator->getQuery()
             ->setFirstResult($postsPerPage * ($page - 1))
             ->setMaxResults($postsPerPage);
+
         return $paginator;
     }
 }
