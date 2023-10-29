@@ -24,10 +24,20 @@ class TeamController extends AbstractController
     /**
      * Index access teams listing.
      */
-    public function index(): Response
+    public function index(Request $request, TeamRepository $teamRepository): Response
     {
+        // $teams = $teamRepository->findAll();
+        $page = $request->get('page', 1);
+        $postsPerPage = 2;
+
+        $teams = $teamRepository->getPaginatedTeams($page, $postsPerPage);
+        $total = $teams->count();
+        $totalTrunc = (int) ceil($total / $postsPerPage);
+
+
         return $this->render('team/index.html.twig', [
-            'controller_name' => 'TeamController',
+            'teams' => $teams,
+            'total' => $totalTrunc,
         ]);
     }
 
@@ -53,8 +63,21 @@ class TeamController extends AbstractController
     }
 
     #[Route('/getteamdata', name: 'app_team_get_data', methods: ['GET'])]
-    public function getMoneyBalance(Request $request, TeamRepository $teamRepository): Response
+    /**
+     * Get a team data with ajax
+     *
+     * @param Request $request
+     * @param TeamRepository $teamRepository
+     * 
+     * @return Response
+     * 
+     */
+    public function getTeamData(Request $request, TeamRepository $teamRepository): Response
     {
+        if (! $request->isXmlHttpRequest()){
+            return new JsonResponse(null);
+        }
+        
         $teamId = $request->query->get('teamId');
 
         if ($teamId) {

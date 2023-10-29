@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+{% block title %}New operation recorded
+{% endblock %}
+
+{% block body %}
+    <div class="">
+        <div class="text-center">
+            <h1 class="mb-5 h2">New operation recorded</h1>
+            
+            <div class="">
+                Operation saved! <br>
+                Operation type : {{operationType}} <br>
+                From team: {{operationFrom}} <br>
+                To team :  {{operationTo}}<br>
+                Player : {{operationPlayer}}<br>
+                Amount of operation : {{operationAmount}} $<br><br>
+                <span>The teams' money balances have been updated accordingly</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

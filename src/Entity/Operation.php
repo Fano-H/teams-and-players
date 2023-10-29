@@ -27,6 +27,9 @@ class Operation
     #[ORM\Column]
     private ?float $amount = null;
 
+    #[ORM\ManyToOne(inversedBy: 'operationConcerns')]
+    private ?Team $Concern = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -76,6 +79,18 @@ class Operation
     public function setAmount(float $amount): static
     {
         $this->amount = $amount;
+
+        return $this;
+    }
+
+    public function getConcern(): ?Team
+    {
+        return $this->Concern;
+    }
+
+    public function setConcern(?Team $Concern): static
+    {
+        $this->Concern = $Concern;
 
         return $this;
     }

@@ -9,37 +9,50 @@
 
 		<div class="custom-teams-container">
 			<div class="row">
-				{% for item in 1..6 %}
-					<div class="col-6 mb-3">
-						<div class="card">
-							<div class="card-header">
-								Team name
-							</div>
-							<div class="card-body">
-								<ul>
-									{% for item in 1..11 %}
-										<li>Abraham Player</li>
-									{% endfor %}
-								</ul>
+				{% if teams|length > 0 %}
+
+					{% for team in teams %}
+						<div class="col-6 mb-3">
+							<div class="card">
+								<div class="card-header">
+									{{ team.name }}
+								</div>
+								<div class="card-body">
+									<ul>
+										{% for player in team.players %}
+											<li>{{ player.name }}
+												{{ player.surname }}</li>
+										{% endfor %}
+									</ul>
+								</div>
 							</div>
 						</div>
-					</div>
-				{% endfor %}
+					{% endfor %}
+
+				{% else %}
+					<p class="mt-4">No team</p>
+
+				{% endif %}
+
 			</div>
 		</div>
 
 		<div class="custom-teams-pagination">
+			{% set _currentRoute = app.request.attributes.get('_route') %}
+			{% set _currentParams = app.request.query.all|merge(app.request.attributes.get('_route_params')) %}
 			<nav aria-label="...">
 				<ul class="pagination justify-content-center">
-					<li class="page-item active" aria-current="page">
-						<span class="page-link">1</span>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#">2</a>
-					</li>
-					<li class="page-item">
-						<a class="page-link" href="#">3</a>
-					</li>
+					{% for one in 1..total %}
+						{% if (_currentParams| length < 0 ) or (_currentParams| length > 0 and one == _currentParams.page) %}
+						<li class="page-item active">
+						{% else %}
+						<li class="page-item">
+						{% endif %}
+							<a class="page-link" href="{{ path('app_team_index', {'page': one}) }}">{{one}}</a>
+						</li>
+
+					{% endfor %}
+
 				</ul>
 			</nav>
 		</div>

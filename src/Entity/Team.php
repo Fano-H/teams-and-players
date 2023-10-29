@@ -32,10 +32,14 @@ class Team
     #[ORM\OneToMany(mappedBy: 'team', targetEntity: Operation::class)]
     private Collection $operations;
 
+    #[ORM\OneToMany(mappedBy: 'Concern', targetEntity: Operation::class)]
+    private Collection $operationConcerns;
+
     public function __construct()
     {
         $this->players = new ArrayCollection();
         $this->operations = new ArrayCollection();
+        $this->operationConcerns = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,6 +137,36 @@ class Team
             // set the owning side to null (unless already changed)
             if ($operation->getOperator() === $this) {
                 $operation->setOperator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Operation>
+     */
+    public function getOperationConcerns(): Collection
+    {
+        return $this->operationConcerns;
+    }
+
+    public function addOperationConcern(Operation $operationConcern): static
+    {
+        if (!$this->operationConcerns->contains($operationConcern)) {
+            $this->operationConcerns->add($operationConcern);
+            $operationConcern->setConcern($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOperationConcern(Operation $operationConcern): static
+    {
+        if ($this->operationConcerns->removeElement($operationConcern)) {
+            // set the owning side to null (unless already changed)
+            if ($operationConcern->getConcern() === $this) {
+                $operationConcern->setConcern(null);
             }
         }
 

@@ -46,7 +46,6 @@ class OperationType extends AbstractType
             ->add('concern', EntityType::class, [
                 'class' => Team::class,
                 'choice_label' => 'name',
-                'mapped' => false,
                 'placeholder' => 'Select a team',
                 'attr' => [
                     'class' => 'custom-concern',
@@ -61,7 +60,6 @@ class OperationType extends AbstractType
                 'attr' => [
                     'class' => 'custom-concern-player',
                 ],
-                'label' => 'Player (select concern first)',
             ])
 
         ;
