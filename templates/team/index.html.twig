@@ -7,6 +7,18 @@
 	<div class="">
 		<h1>Teams</h1>
 
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success my-3">
+				{{ message }}
+			</div>
+		{% endfor %}
+
+		{% for message in app.flashes('danger') %}
+			<div class="alert alert-danger my-3">
+				{{ message }}
+			</div>
+		{% endfor %}
+
 		<div class="custom-teams-container">
 			<div class="row">
 				{% if teams|length > 0 %}
@@ -24,6 +36,10 @@
 												{{ player.surname }}</li>
 										{% endfor %}
 									</ul>
+
+									<div>
+										<a href="{{ path('app_team_edit', {'id': team.id}) }}" class="">Edit the team</a>
+									</div>
 								</div>
 							</div>
 						</div>

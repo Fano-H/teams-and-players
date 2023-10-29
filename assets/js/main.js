@@ -2,6 +2,7 @@ import axios from 'axios'
 
 /**
  * To add players on team form
+ * (new)
  */
 document
   .querySelectorAll('.custom-add-player-button')
@@ -31,6 +32,7 @@ function addPlayerToCollection (e) {
 
 /**
  * For removing players from team form
+ * While adding new team
  */
 function addPlayerFormDeleteLink (item) {
   const removeFormButton = document.createElement('button')
@@ -44,6 +46,22 @@ function addPlayerFormDeleteLink (item) {
     item.remove()
   })
 }
+
+
+function removingExistingPlayer(){
+  const removeBtns = document.querySelectorAll('.custom-delete-existing-player')
+
+  if(removeBtns.length > 0){
+    removeBtns.forEach((rmvBtn) => {
+      rmvBtn.addEventListener('click', function(evt){
+        let item = rmvBtn.closest('.custom-existing-player')
+        item.remove()
+      })
+    })
+  }
+}
+
+removingExistingPlayer()
 
 /**
  * Getting data of a team

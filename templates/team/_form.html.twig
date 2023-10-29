@@ -41,18 +41,21 @@
 
 	<div class="team-players-holder" data-index="{{ form.players|length > 0 ? form.players|last.vars.name + 1 : 0 }}" data-prototype="{{ itemTemplate|e('html_attr') }}">
 		{% for player in form.players %}
-			<div class="row">
-				<div class="col">
-					<div class="mb-3">
-						{{ form_row(player.name) }}
-					</div>
+			<div class="custom-existing-player">
+				<div class="row mt-3">
+					<div class="col">
+						<div class="mb-3">
+							{{ form_row(player.name) }}
+						</div>
 
-				</div>
-				<div class="col">
-					<div class="mb-3">
-						{{ form_row(player.surname) }}
+					</div>
+					<div class="col">
+						<div class="mb-3">
+							{{ form_row(player.surname) }}
+						</div>
 					</div>
 				</div>
+				<button type="button" class="btn btn-sm btn-danger ms-auto d-block custom-delete-existing-player">Delete this player</button>
 			</div>
 
 		{% endfor %}

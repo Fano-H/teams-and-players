@@ -97,4 +97,29 @@ class TeamController extends AbstractController
 
         return new JsonResponse(null);
     }
+
+    #[Route('/edit/{id}', name: 'app_team_edit')]
+    public function editTeam(Request $request, Team $team, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(TeamType::class, $team);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'The team data was updated'
+            );
+
+            return $this->redirectToRoute('app_team_index');
+        }
+        return $this->render('team/edit.html.twig', [
+            'form' => $form,
+            'team' => $team,
+        ]);
+        
+    }
+
 }

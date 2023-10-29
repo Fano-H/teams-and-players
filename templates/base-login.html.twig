@@ -12,11 +12,8 @@
 		{% endblock %}
 	</head>
 	<body data-get-team-data-url="{{ path('app_team_get_data') }}">
-		<div class="row">
-            <div class="col-3">
-                {% include "_layout/sidebar.html.twig" %}
-            </div>
-            <div class="col-9 pe-4 py-5">
+        <div class="row">
+            <div class="col-12">
                 {% block body %}{% endblock %}
             </div>
         </div>
