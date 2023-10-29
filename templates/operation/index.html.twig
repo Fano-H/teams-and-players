@@ -2,13 +2,23 @@
 {% block title %}New operation
 {% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('app_new_operation_asset') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('app_new_operation_asset') }}
+{% endblock %}
+
 {% block body %}
-    <div class="">
+	<div class="">
 		<h1 class="mb-5">New operation</h1>
 		<div class="custom-teams-new-container">
-            <div class="custom-teams-new-form">
-                {% include "operation/_form-new.html.twig" %}
-            </div>
-        </div>
-    </div>
+			<div class="custom-teams-new-form">
+				{% include "operation/_form-new.html.twig" %}
+			</div>
+		</div>
+	</div>
 {% endblock %}

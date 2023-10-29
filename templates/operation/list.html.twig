@@ -7,44 +7,41 @@
 		<h1 class="mb-5">Operations history</h1>
 		<div class="custom-operations-list-container">
 			<div class="custom-operations-list-tab">
+				{% if operations|length == 0 %}
+					<p class="fs-5">
+						There is no sell and buy operations yet
+					</p>
+				{% else %}
+				
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th scope="col">Type</th>
+								<th scope="col">From team</th>
+								<th scope="col">To team</th>
+								<th scope="col">Player</th>
+								<th scope="col">Amount($)</th>
+								<th scope="col">Operation date</th>
+							</tr>
+						</thead>
+						<tbody>
 
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th scope="col">Type</th>
-							<th scope="col">From team</th>
-							<th scope="col">To team</th>
-							<th scope="col">Player</th>
-							<th scope="col">Amount($)</th>
-							<th scope="col">Operation date</th>
-						</tr>
-					</thead>
-					<tbody>
+							{% for operation in operations %}
+							
+								<tr>
+									<th>{{operation.typeOp}}</th>
+									<td>{{operation.operator.name}}</td>
+									<td>{{operation.concern.name}}</td>
+									<td>{{operation.player.name ~ ' ' ~ operation.player.surname}}</td>
+									<td>{{operation.amount}}</td>
+									<td>{{operation.createdAt|date("d-m-Y") }}</td>
+								</tr>
+							{% endfor %}
+							
+						</tbody>
+					</table>
 
-                        {% for operation in operations %}
-                        
-                            <tr>
-                                <th>{{operation.typeOp}}</th>
-                                <td>{{operation.operator.name}}</td>
-                                <td>{{operation.concern.name}}</td>
-                                <td>{{operation.player.name ~ ' ' ~ operation.player.surname}}</td>
-                                <td>{{operation.amount}}</td>
-                                <td>{{operation.createdAt|date("d-m-Y") }}</td>
-                            </tr>
-                        {% endfor %}
-						<tr>
-							<th scope="row">2</th>
-							<td>Jacob</td>
-							<td>Thornton</td>
-							<td>@fat</td>
-						</tr>
-						<tr>
-							<th scope="row">3</th>
-							<td colspan="2">Larry the Bird</td>
-							<td>@twitter</td>
-						</tr>
-					</tbody>
-				</table>
+				{% endif %}
 
 			</div>
 		</div>

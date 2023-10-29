@@ -50,7 +50,7 @@ class TeamRepository extends ServiceEntityRepository
     public function getPaginatedTeams($page = 1, $postsPerPage = 1)
     {
         $query = $this->createQueryBuilder('tm')
-            ->orderBy('tm.name', 'DESC')
+            ->orderBy('tm.id', 'DESC')
             ->getQuery();
 
         $paginator = new Paginator($query);

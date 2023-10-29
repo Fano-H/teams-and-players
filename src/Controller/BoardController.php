@@ -13,8 +13,6 @@ class BoardController extends AbstractController
     #[Route('/', name: 'app_board')]
     public function index(): Response
     {
-        return $this->render('board/index.html.twig', [
-            'controller_name' => 'BoardController',
-        ]);
+        return $this->redirectToRoute('app_team_index', [], 302);
     }
 }

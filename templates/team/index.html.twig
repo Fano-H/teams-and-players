@@ -38,7 +38,10 @@
 									</ul>
 
 									<div>
-										<a href="{{ path('app_team_edit', {'id': team.id}) }}" class="">Edit the team</a>
+										<a href="{{ path('app_team_edit', {'id': team.id}) }}" class="custom-edit-team">Edit the team</a>
+									</div>
+									<div class="mt-2">
+										<a href="{{ path('app_team_delete', {'id': team.id}) }}" class="text-danger custom-delete-team">Drop the team</a>
 									</div>
 								</div>
 							</div>
@@ -46,7 +49,7 @@
 					{% endfor %}
 
 				{% else %}
-					<p class="mt-4">No team</p>
+					<p class="mt-4 fs-5">There is no teams yet</p>
 
 				{% endif %}
 
@@ -74,4 +77,18 @@
 		</div>
 
 	</div>
+
+	<script>
+		const deleteTeamBtns = document.querySelectorAll('.custom-delete-team')
+		
+		deleteTeamBtns.forEach((deleteBtn)=>{
+			deleteBtn.addEventListener('click', (evt)=>{
+				evt.preventDefault();
+				if(confirm("Are you sure you want to delete this team")){
+					window.location.href= evt.target.href
+				}
+			})
+		})
+	</script>
+
 {% endblock %}

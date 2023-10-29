@@ -54,6 +54,13 @@ class TeamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($team);
             $entityManager->flush();
+
+            $this->addFlash(
+                'success',
+                'The team was recorded'
+            );
+
+            return $this->redirectToRoute('app_team_index');
         }
 
         return $this->render('team/new.html.twig', [
@@ -115,11 +122,29 @@ class TeamController extends AbstractController
 
             return $this->redirectToRoute('app_team_index');
         }
+
         return $this->render('team/edit.html.twig', [
             'form' => $form,
             'team' => $team,
         ]);
-        
     }
 
+    #[Route('/drop/{id}', name: 'app_team_delete')]
+    public function dropTeam(Request $request, Team $team, EntityManagerInterface $entityManager): Response
+    {
+        try {
+            $entityManager->remove($team);
+            $entityManager->flush();
+
+            $this->addFlash(
+                'danger',
+                'The team was deleted'
+            );
+
+            return $this->redirectToRoute('app_team_index');
+        } catch (\Exception $exec) {
+            return $this->render('team/cannot-delete.html.twig', [
+            ]);
+        }
+    }
 }

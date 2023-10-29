@@ -29,7 +29,7 @@ class OperationController extends AbstractController
         ]);
     }
 
-    #[Route('/', name: 'app_operation_new')]
+    #[Route('/new', name: 'app_operation_new')]
     public function newOperation(Request $request, EntityManagerInterface $entityManager): Response
     {
         $operation = new Operation();

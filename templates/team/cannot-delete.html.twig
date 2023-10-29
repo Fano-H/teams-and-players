@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}Cannot delete team
+{% endblock %}
+
+{% block body %}
+    <div class="">
+		<h1 class="mb-5">Cannot delete the team</h1>
+		
+        <div class="w-50 mx-auto mt-4 shadow border border-1 border-danger p-4 text-center">
+            <p>Cannot delete because some operations are recorded about this team</p>
+            <a href="{{ path('app_team_index') }}">Go back</a>
+
+        </div>
+
+    </div>
+{% endblock %}
