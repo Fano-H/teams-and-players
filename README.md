@@ -28,3 +28,7 @@ Run `php bin/console doctrine:migrations:migrate` to create the database structu
 After running the `yarn install` above,
 run `yarn dev` to compile frontend assets.
 
+### Create user to access the app
+TO access the app, you'll need user to be connected.
+
+To create one, run the command `php bin/console app:create-user` and you will be prompted for the creation
