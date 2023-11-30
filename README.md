@@ -24,6 +24,8 @@ Run `php bin/console doctrine:database:create` if the database is not created ye
 
 Run `php bin/console doctrine:migrations:migrate` to create the database structure
 
+Or Run `php bin/console doctrine:schema:update --force` if you have issues with migrations
+
 ### Build frontend
 After running the `yarn install` above,
 run `yarn dev` to compile frontend assets.
