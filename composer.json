@@ -1,4 +1,5 @@
 {
+    "name" : "fano/teams-and-players",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
