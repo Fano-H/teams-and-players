@@ -20,5 +20,4 @@ class OperationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Operation::class);
     }
-
 }

@@ -22,7 +22,7 @@ class TeamRepository extends ServiceEntityRepository
         parent::__construct($registry, Team::class);
     }
 
-    public function getPaginatedTeams($page = 1, $postsPerPage = 1)
+    public function getPaginatedTeams(int $page = 1, int $postsPerPage = 1): Paginator
     {
         $query = $this->createQueryBuilder('tm')
             ->orderBy('tm.id', 'DESC')

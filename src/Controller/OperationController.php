@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Operation;
 use App\Form\OperationType;
 use App\Repository\OperationRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\OperationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +30,7 @@ class OperationController extends AbstractController
     }
 
     #[Route('/new', name: 'app_operation_new')]
-    public function newOperation(Request $request, EntityManagerInterface $entityManager): Response
+    public function newOperation(Request $request, OperationService $operationService): Response
     {
         $operation = new Operation();
         $form = $this->createForm(OperationType::class, $operation);
@@ -41,44 +41,27 @@ class OperationController extends AbstractController
             try {
                 $data = $form->getData();
 
-                $initialOperatorBalance = (float) $data->getOperator()->getMoneyBalance();
-                $initialConcernBalance = (float) $data->getConcern()->getMoneyBalance();
+                if ('operator-low-purchase' === $operationService->processNewOperation($data, $operation)) {
+                    $this->addFlash(
+                        'danger',
+                        'The operator team has lower balance than the amount to purchase !'
+                    );
 
-                $operationAmout = (float) $data->getAmount();
-
-                $typeOfOperation = $data->getTypeOp();
-
-                $newOperatorBalance = 0;
-                $newConcernBalance = 0;
-
-                $player = $data->getPlayer();
-
-                if ('buy' === $typeOfOperation) {
-                    if ($operationAmout > $initialOperatorBalance) {
-                        return new Response('The operator team has lower balance than the amount to purchase !', 403);
-                    }
-                    $newOperatorBalance = $initialOperatorBalance - $operationAmout;
-                    $newConcernBalance = $initialConcernBalance + $operationAmout;
-
-                    $player->setTeam($data->getOperator());
-                } elseif ('sell' == $typeOfOperation) {
-                    if ($operationAmout > $initialConcernBalance) {
-                        return new Response('The concern team has lower balance than the sold amount !', 403);
-                    }
-                    $newOperatorBalance = $initialOperatorBalance + $operationAmout;
-                    $newConcernBalance = $initialConcernBalance - $operationAmout;
-
-                    $player->setTeam($data->getConcern());
-                } else {
-                    $newOperatorBalance = $initialOperatorBalance;
-                    $newConcernBalance = $initialConcernBalance;
+                    return $this->render('operation/index.html.twig', [
+                        'form' => $form,
+                    ]);
                 }
 
-                $operation->getOperator()->setMoneyBalance($newOperatorBalance);
-                $operation->getConcern()->setMoneyBalance($newConcernBalance);
+                if ('concern-low-sold-amount' === $operationService->processNewOperation($data, $operation)) {
+                    $this->addFlash(
+                        'danger',
+                        'The concern team has lower balance than the sold amount !'
+                    );
 
-                $entityManager->persist($operation);
-                $entityManager->flush();
+                    return $this->render('operation/index.html.twig', [
+                        'form' => $form,
+                    ]);
+                }
 
                 return $this->render('operation/confirmation.html.twig', [
                     'operationType' => $operation->getTypeOp(),
@@ -88,6 +71,7 @@ class OperationController extends AbstractController
                     'operationAmount' => $operation->getAmount(),
                 ]);
             } catch (\Exception $exc) {
+                return new Response($exc->getMessage());
             }
         }
 
