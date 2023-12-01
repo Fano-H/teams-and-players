@@ -25,7 +25,7 @@ class Player
     private string $surname;
 
     #[ORM\ManyToOne(inversedBy: 'players')]
-    private Team $team;
+    private ?Team $team;
 
     #[ORM\OneToMany(mappedBy: 'player', targetEntity: Operation::class)]
     private Collection $operations;

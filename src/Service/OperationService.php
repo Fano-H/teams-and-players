@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Operation;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 
 class OperationService
 {
@@ -13,44 +12,38 @@ class OperationService
     }
 
     /**
-     * Process the creation of an operation
-     *
-     * @param mixed $data
-     * @param Operation $operation
-     * 
-     * @return string|bool|Exception
-     * 
+     * Process the creation of an operation.
      */
-    public function processNewOperation(mixed $data, Operation $operation): string|bool|Exception
+    public function processNewOperation(Operation &$operation): void
     {
-        $initialOperatorBalance = (float) $data->getOperator()->getMoneyBalance();
-        $initialConcernBalance = (float) $data->getConcern()->getMoneyBalance();
+        $initialOperatorBalance = (float) $operation->getOperator()->getMoneyBalance();
+        $initialConcernBalance = (float) $operation->getConcern()->getMoneyBalance();
 
-        $operationAmout = (float) $data->getAmount();
+        $operationAmout = (float) $operation->getAmount();
 
-        $typeOfOperation = $data->getTypeOp();
+        $typeOfOperation = $operation->getTypeOp();
 
-        $player = $data->getPlayer();
+        $player = $operation->getPlayer();
 
         if ('buy' === $typeOfOperation) {
             if ($operationAmout > $initialOperatorBalance) {
-                return 'operator-low-purchase';
+                throw new \Exception('The operator team has lower balance than the amount to purchase !', 1);
             }
             $newOperatorBalance = $initialOperatorBalance - $operationAmout;
             $newConcernBalance = $initialConcernBalance + $operationAmout;
 
-            if ($data->getOperator()) {
-                $player->setTeam($data->getOperator());
+            if ($operation->getOperator()) {
+                $player->setTeam($operation->getOperator());
             }
         } elseif ('sell' === $typeOfOperation) {
             if ($operationAmout > $initialConcernBalance) {
-                return 'concern-low-sold-amount';
+                throw new \Exception('The concern team has lower balance than the sold amount !', 1);
             }
             $newOperatorBalance = $initialOperatorBalance + $operationAmout;
             $newConcernBalance = $initialConcernBalance - $operationAmout;
 
-            if ($data->getConcern()) {
-                $player->setTeam($data->getConcern());
+            if ($operation->getConcern()) {
+                $player->setTeam($operation->getConcern());
             }
         } else {
             $newOperatorBalance = $initialOperatorBalance;
@@ -60,13 +53,11 @@ class OperationService
         $operation->getOperator()->setMoneyBalance($newOperatorBalance);
         $operation->getConcern()->setMoneyBalance($newConcernBalance);
 
-        try{
+        try {
             $this->entityManagerInterface->persist($operation);
-            $this->entityManagerInterface->flush();
 
-            return true;
-        }
-        catch(\Exception $exc){
+            $this->entityManagerInterface->flush();
+        } catch (\Exception $exc) {
             throw $exc;
         }
     }

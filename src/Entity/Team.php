@@ -29,7 +29,7 @@ class Team
     #[ORM\Column(length: 255, nullable: true)]
     private string $country;
 
-    #[ORM\OneToMany(mappedBy: 'team', targetEntity: Player::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'team', targetEntity: Player::class, cascade: ['persist', 'remove'])]
     private Collection $players;
 
     #[ORM\OneToMany(mappedBy: 'team', targetEntity: Operation::class)]

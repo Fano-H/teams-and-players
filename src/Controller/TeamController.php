@@ -143,6 +143,8 @@ class TeamController extends AbstractController
 
             return $this->redirectToRoute('app_team_index');
         } catch (\Exception $exec) {
+            dd($exec->getMessage());
+
             return $this->render('team/cannot-delete.html.twig', [
             ]);
         }

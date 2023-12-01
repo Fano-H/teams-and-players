@@ -39,29 +39,7 @@ class OperationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                $data = $form->getData();
-
-                if ('operator-low-purchase' === $operationService->processNewOperation($data, $operation)) {
-                    $this->addFlash(
-                        'danger',
-                        'The operator team has lower balance than the amount to purchase !'
-                    );
-
-                    return $this->render('operation/index.html.twig', [
-                        'form' => $form,
-                    ]);
-                }
-
-                if ('concern-low-sold-amount' === $operationService->processNewOperation($data, $operation)) {
-                    $this->addFlash(
-                        'danger',
-                        'The concern team has lower balance than the sold amount !'
-                    );
-
-                    return $this->render('operation/index.html.twig', [
-                        'form' => $form,
-                    ]);
-                }
+                $operationService->processNewOperation($operation);
 
                 return $this->render('operation/confirmation.html.twig', [
                     'operationType' => $operation->getTypeOp(),
