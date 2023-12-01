@@ -14,24 +14,24 @@ class Operation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 255)]
-    private ?string $typeOp = null;
+    private string $typeOp;
 
     #[ORM\ManyToOne(inversedBy: 'operations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Team $operator = null;
+    private Team $operator;
 
     #[ORM\ManyToOne(inversedBy: 'operations')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Player $player = null;
+    private Player $player;
 
     #[ORM\Column]
-    private ?float $amount = null;
+    private float $amount;
 
     #[ORM\ManyToOne(inversedBy: 'operationConcerns')]
-    private ?Team $Concern = null;
+    private Team $Concern;
 
     public function getId(): ?int
     {

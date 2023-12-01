@@ -16,16 +16,16 @@ class Player
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $surname = null;
+    private string $surname;
 
     #[ORM\ManyToOne(inversedBy: 'players')]
-    private ?Team $team = null;
+    private Team $team;
 
     #[ORM\OneToMany(mappedBy: 'player', targetEntity: Operation::class)]
     private Collection $operations;

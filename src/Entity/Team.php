@@ -18,16 +18,16 @@ class Team
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 255, unique: true)]
-    private ?string $name = null;
+    private string $name;
 
     #[ORM\Column(nullable: true)]
-    private ?float $moneyBalance = null;
+    private float $moneyBalance;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $country = null;
+    private string $country;
 
     #[ORM\OneToMany(mappedBy: 'team', targetEntity: Player::class, cascade: ['persist'])]
     private Collection $players;

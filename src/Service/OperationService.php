@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Operation;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class OperationService
 {
@@ -11,7 +12,16 @@ class OperationService
     {
     }
 
-    public function processNewOperation(mixed $data, Operation $operation): mixed
+    /**
+     * Process the creation of an operation
+     *
+     * @param mixed $data
+     * @param Operation $operation
+     * 
+     * @return string|bool|Exception
+     * 
+     */
+    public function processNewOperation(mixed $data, Operation $operation): string|bool|Exception
     {
         $initialOperatorBalance = (float) $data->getOperator()->getMoneyBalance();
         $initialConcernBalance = (float) $data->getConcern()->getMoneyBalance();
@@ -19,9 +29,6 @@ class OperationService
         $operationAmout = (float) $data->getAmount();
 
         $typeOfOperation = $data->getTypeOp();
-
-        $newOperatorBalance = 0;
-        $newConcernBalance = 0;
 
         $player = $data->getPlayer();
 
@@ -53,7 +60,14 @@ class OperationService
         $operation->getOperator()->setMoneyBalance($newOperatorBalance);
         $operation->getConcern()->setMoneyBalance($newConcernBalance);
 
-        $this->entityManagerInterface->persist($operation);
-        $this->entityManagerInterface->flush();
+        try{
+            $this->entityManagerInterface->persist($operation);
+            $this->entityManagerInterface->flush();
+
+            return true;
+        }
+        catch(\Exception $exc){
+            throw $exc;
+        }
     }
 }
